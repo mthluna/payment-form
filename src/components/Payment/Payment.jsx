@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
-import { tabletBig } from '../../utils';
+import { largeTablet } from '../../utils';
+import colors from '../../utils/colors';
 
 const contentPadding = '40px';
 
@@ -11,7 +12,7 @@ const Payment = styled.div`
     padding: ${contentPadding};
     background-color: #fff;
 
-    @media (min-width: ${tabletBig}px) {
+    @media (min-width: ${largeTablet}px) {
         flex-direction: row;
         max-width: 1024px;
         width: 100%;
@@ -28,10 +29,10 @@ Payment.Header = styled.div`
     margin-bottom: 0;
     padding: ${contentPadding};
     padding-bottom: 114px;
-    background-color: #DE4B4B;
+    background-color: ${colors.main};
     color: #fff;
 
-    @media (min-width: ${tabletBig}px) {
+    @media (min-width: ${largeTablet}px) {
         width: 352px;
         margin: 0;
         padding: 50px 15px 50px 64px;
@@ -45,7 +46,7 @@ Payment.Back = styled.button`
     background: none;
     border: 0;
 
-    @media (min-width: ${tabletBig}px) {
+    @media (min-width: ${largeTablet}px) {
         display: flex;
         align-items: center;
         position: static;
@@ -61,7 +62,7 @@ Payment.BackText = styled.span`
     font-family: Verdana;
     color: #fff;
 
-    @media (min-width: ${tabletBig}px) {
+    @media (min-width: ${largeTablet}px) {
         display: inline;
     }
 `;
@@ -77,22 +78,22 @@ Payment.Steps = styled.p`
     color: #fff;
     counter-reset: steps-counter;
 
-    @media (min-width: ${tabletBig}px) {
+    @media (min-width: ${largeTablet}px) {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 70px;
-        color: #DE4B4B;
+        color: ${colors.main};
     }
 
     ${({ mobile }) => mobile && css`
-        @media (min-width: ${tabletBig}px) {
+        @media (min-width: ${largeTablet}px) {
             display: none;
         }
     `}
 
     ${({ desktop }) => desktop && css`
-        @media (max-width: ${tabletBig - 1}px) {
+        @media (max-width: ${largeTablet - 1}px) {
             display: none;
         }
     `}
@@ -107,14 +108,14 @@ Payment.StepsItem = styled.span`
         margin-right: 8px;
         padding: 2px 5.6px;
         border-radius: 50%;
-        border: 1px solid #DE4B4B;
+        border: 1px solid ${colors.main};
         font-weight: bold;
     }
 
     ${({ passed }) => passed && css`
         &:before {
             content: "\\2713";
-            background: #DE4B4B;
+            background: ${colors.main};
             color: #fff;
         }
     `}
@@ -139,7 +140,7 @@ Payment.StepTitle = styled.h3`
         height: 40px;
     }
 
-    @media (min-width: ${tabletBig}px) {
+    @media (min-width: ${largeTablet}px) {
         margin-bottom: 30px;
         font-size: 20px;
 
@@ -156,11 +157,12 @@ Payment.StepTitle = styled.h3`
 
 Payment.Content = styled.div`
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
     padding-top: 114px;
     width: 100%;
 
-    @media (min-width: ${tabletBig}px) {
+    @media (min-width: ${largeTablet}px) {
         padding: 50px 64px 50px 168px;
     }
 `;

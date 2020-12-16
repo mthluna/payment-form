@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Payment from './Payment';
 import Chevron from '../Chevron';
@@ -6,41 +6,60 @@ import Chevron from '../Chevron';
 import IconCreditCard from '../../assets/svg/icon-credit-card.svg';
 
 import CreditCard from './CreditCard';
+import Form from '../Form';
+import colors from '../../utils/colors';
 
-export default () => (
-  <Payment>
-    <Payment.Header>
-      <Payment.Back>
-        <Chevron color="#fff" direction="left" />
-        <Payment.BackText>
-          Alterar forma de pagamento
-        </Payment.BackText>
-      </Payment.Back>
+export default () => {
+  const [creditCard, setCreditCard] = useState({});
 
-      <Payment.Steps mobile>
-        <strong>Etapa 2</strong>
-        {' '}
-        de 3
-      </Payment.Steps>
+  return (
+    <Payment>
+      <Payment.Header>
+        <Payment.Back>
+          <Chevron color="#fff" direction="left" />
+          <Payment.BackText>
+            Alterar forma de pagamento
+          </Payment.BackText>
+        </Payment.Back>
 
-      <Payment.StepTitle>
-        <img alt="Credit card icon" src={IconCreditCard} />
-        <span>
-          Adicione um novo cartão de crédito
-        </span>
-      </Payment.StepTitle>
+        <Payment.Steps mobile>
+          <strong>Etapa 2</strong>
+          {' '}
+          de 3
+        </Payment.Steps>
 
-      <CreditCard />
-    </Payment.Header>
+        <Payment.StepTitle>
+          <img alt="Credit card icon" src={IconCreditCard} />
+          <span>
+            Adicione um novo cartão de crédito
+          </span>
+        </Payment.StepTitle>
 
-    <Payment.Content>
-      <Payment.Steps desktop>
-        <Payment.StepsItem passed>Carrinho</Payment.StepsItem>
-        <Chevron color="#DE4B4B" direction="right" />
-        <Payment.StepsItem>Pagamento</Payment.StepsItem>
-        <Chevron color="#DE4B4B" direction="right" />
-        <Payment.StepsItem>Confirmação</Payment.StepsItem>
-      </Payment.Steps>
-    </Payment.Content>
-  </Payment>
-);
+        <CreditCard
+          card={creditCard.card}
+          active={creditCard.is_valid}
+          number={creditCard.card_number}
+          nameOnCard={creditCard.name_on_card}
+          expirationDate={creditCard.expiration_date}
+          cvv={creditCard.cvv}
+        />
+      </Payment.Header>
+
+      <Payment.Content>
+        <Payment.Steps desktop>
+          <Payment.StepsItem passed>Carrinho</Payment.StepsItem>
+          <Chevron color={colors.main} direction="right" />
+          <Payment.StepsItem>Pagamento</Payment.StepsItem>
+          <Chevron color={colors.main} direction="right" />
+          <Payment.StepsItem>Confirmação</Payment.StepsItem>
+        </Payment.Steps>
+
+        <Form
+          creditCard={creditCard}
+          setCreditCard={setCreditCard}
+        />
+
+      </Payment.Content>
+    </Payment>
+  );
+};
