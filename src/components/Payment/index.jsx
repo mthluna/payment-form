@@ -33,6 +33,14 @@ export default () => (
       <CreditCard />
     </Payment.Header>
 
-    form
+    <Payment.Content>
+      <Payment.Steps desktop>
+        <Payment.StepsItem passed>Carrinho</Payment.StepsItem>
+        <Chevron color="#DE4B4B" direction="right" />
+        <Payment.StepsItem>Pagamento</Payment.StepsItem>
+        <Chevron color="#DE4B4B" direction="right" />
+        <Payment.StepsItem>Confirmação</Payment.StepsItem>
+      </Payment.Steps>
+    </Payment.Content>
   </Payment>
 );

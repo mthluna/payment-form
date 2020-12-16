@@ -75,10 +75,47 @@ Payment.Steps = styled.p`
     font-family: Verdana;
     letter-spacing: -0.01px;
     color: #fff;
+    counter-reset: steps-counter;
+
+    @media (min-width: ${tabletBig}px) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 70px;
+        color: #DE4B4B;
+    }
 
     ${({ mobile }) => mobile && css`
         @media (min-width: ${tabletBig}px) {
             display: none;
+        }
+    `}
+
+    ${({ desktop }) => desktop && css`
+        @media (max-width: ${tabletBig - 1}px) {
+            display: none;
+        }
+    `}
+`;
+
+Payment.StepsItem = styled.span`
+    counter-increment: steps-counter;
+
+    &:before {
+        display: inline-block;
+        content: counter(steps-counter);
+        margin-right: 8px;
+        padding: 2px 5.6px;
+        border-radius: 50%;
+        border: 1px solid #DE4B4B;
+        font-weight: bold;
+    }
+
+    ${({ passed }) => passed && css`
+        &:before {
+            content: "\\2713";
+            background: #DE4B4B;
+            color: #fff;
         }
     `}
 `;
@@ -98,9 +135,9 @@ Payment.StepTitle = styled.h3`
     }
 
     > img {
-            width: 40px;
-            height: 40px;
-        }
+        width: 40px;
+        height: 40px;
+    }
 
     @media (min-width: ${tabletBig}px) {
         margin-bottom: 30px;
@@ -114,6 +151,17 @@ Payment.StepTitle = styled.h3`
             width: 50px;
             height: 50px;
         }
+    }
+`;
+
+Payment.Content = styled.div`
+    display: flex;
+    align-items: flex-start;
+    padding-top: 114px;
+    width: 100%;
+
+    @media (min-width: ${tabletBig}px) {
+        padding: 50px 64px 50px 168px;
     }
 `;
 
