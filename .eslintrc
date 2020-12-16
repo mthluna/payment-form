@@ -1,0 +1,11 @@
+{
+    "extends": "airbnb",
+    "ignorePatterns": ["build/*.js"],
+    "globals": {
+        "document": true,
+        "window": true
+    },
+    "rules": {
+        "react/prop-types": 0
+    }
+}
