@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
-import Input from './Input';
+import InputField from './Input';
 import Select from './Select';
 import Button from './Button';
 
-import { formatPrice, largeTablet } from '../../utils';
+import {
+  formatPrice, largeTablet, testDate, post,
+} from '../../utils';
 import { getCard } from '../../utils/creditCard';
 
 export default ({
   creditCard,
   setCreditCard,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       card_number: '',
@@ -21,9 +26,31 @@ export default ({
       cvv: '',
       installments: '',
     },
+    validationSchema: Yup.object().shape({
+      card_number: Yup.string()
+        .required('Número de cartão inválido')
+        .test('test-card', 'Número de cartão inválido', (value) => value && !!getCard(value)),
+      name_on_card: Yup.string()
+        .required('Insira seu nome completo')
+        .test('validate-name', 'Insira seu nome completo', (value) => value && value.split(' ').length >= 2),
+      expiration_date: Yup.string('Data inválida')
+        .required('Data inválida')
+        .test('test-date', 'Data inválida', (value) => value && testDate(value)),
+      cvv: Yup.string()
+        .min(3, 'Código Inválido')
+        .max(3, 'Código Inválido')
+        .required('Código Inválido'),
+      installments: Yup.string().required('Insira o número de parcelas'),
+    }),
     onSubmit: (values) => {
-      // eslint-disable-next-line no-console
-      console.log(JSON.stringify(values, null, 2));
+      setIsLoading(true);
+
+      post('/pagar', values)
+        .then((response) => {
+          // eslint-disable-next-line no-console
+          console.log(response);
+          setIsLoading(false);
+        });
     },
   });
 
@@ -45,9 +72,9 @@ export default ({
   const installments = [...Array(12)].map((value, index) => index + 1);
 
   return (
-    <Form onSubmit={formik.handleSubmit}>
+    <Form data-testid="payment-form" onSubmit={formik.handleSubmit}>
       <Form.Row>
-        <Input
+        <InputField
           placeholder="Número do cartão"
           onBlur={handleBlurCardNumber}
           type="text"
@@ -55,34 +82,38 @@ export default ({
           name="card_number"
           onChange={updateCreditCard}
           value={formik.values.card_number}
+          error={formik.errors.card_number}
         />
       </Form.Row>
       <Form.Row>
-        <Input
+        <InputField
           placeholder="Nome (igual ao cartão)"
           type="text"
           id="name_on_card"
           name="name_on_card"
           onChange={updateCreditCard}
           value={formik.values.name_on_card}
+          error={formik.errors.name_on_card}
         />
       </Form.Row>
       <Form.Row>
-        <Input
+        <InputField
           placeholder="Validade"
           type="text"
           id="expiration_date"
           name="expiration_date"
           onChange={updateCreditCard}
           value={formik.values.expiration_date}
+          error={formik.errors.expiration_date}
         />
-        <Input
+        <InputField
           placeholder="CVV"
           type="number"
           id="cvv"
           name="cvv"
           onChange={updateCreditCard}
           value={formik.values.cvv}
+          error={formik.errors.cvv}
         />
       </Form.Row>
       <Form.Row>
@@ -91,6 +122,7 @@ export default ({
           name="installments"
           onChange={formik.handleChange}
           value={formik.values.installments}
+          error={formik.errors.installments}
         >
           <option value="">Número de parcelas</option>
           {installments.map((value) => (
@@ -101,7 +133,7 @@ export default ({
         </Select>
       </Form.Row>
       <Form.Submit right>
-        <Button type="submit">Continuar</Button>
+        <Button type="submit">{isLoading ? 'ENVIANDO...' : 'CONTINUAR'}</Button>
       </Form.Submit>
     </Form>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { largeTablet } from '../../utils';
 
 import colors from '../../utils/colors';
 
@@ -11,6 +12,7 @@ export default ({
   value,
   onChange,
   onBlur,
+  error,
 }) => (
   <Input.Group>
     <Input.Label htmlFor={id} staticLabel={!!value}>{placeholder}</Input.Label>
@@ -22,10 +24,11 @@ export default ({
       name={name}
       value={value}
     />
+    {error && <Input.Error>{error}</Input.Error>}
   </Input.Group>
 );
 
-const Input = styled.input`
+export const Input = styled.input`
     width: 100%;
     padding-bottom: 5px;
     background: #fff;
@@ -60,5 +63,17 @@ Input.Label = styled.label`
         font-size: 13px;
         transform: translateY(-26px);
     `}
+`;
 
+Input.Error = styled.p`
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  color: #EB5757;
+  font-size: 11px;
+  font-family: Verdana;
+
+  @media (min-width: ${largeTablet}px) {
+    font-size: 13px;
+  }
 `;

@@ -119,7 +119,7 @@ CreditCard.Item = styled.p`
 
         > span {
           &:not(:first-child) {
-            margin-left: 15px;
+            margin-left: 7px;
 
             @media (min-width: ${largeTablet}px) {
               margin-left: 10px;

@@ -6,7 +6,7 @@ export const cards = {
 };
 
 export const getCard = (number) => {
-  const [result] = Object.keys(cards).filter((card) => cards[card].test(number));
-
+  const numberCard = number.replace(/\s/g, '');
+  const [result] = Object.keys(cards).filter((card) => cards[card].test(numberCard));
   return result;
 };

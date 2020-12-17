@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import colors from '../../utils/colors';
 
 import Chevron from '../Chevron';
+import { Input } from './Input';
 
 export default ({
   children,
@@ -10,15 +11,19 @@ export default ({
   name,
   value,
   onChange,
+  error,
 }) => (
-  <Select.Wrapper htmlFor={id}>
-    <Select empty={!value} id={id} name={name} value={value} onChange={onChange}>
-      {children}
-    </Select>
-    <Select.Arrow>
-      <Chevron sm color="#DE4B4B" direction="bottom" />
-    </Select.Arrow>
-  </Select.Wrapper>
+  <Input.Group>
+    <Select.Wrapper htmlFor={id}>
+      <Select empty={!value} id={id} name={name} value={value} onChange={onChange}>
+        {children}
+      </Select>
+      <Select.Arrow>
+        <Chevron sm color="#DE4B4B" direction="bottom" />
+      </Select.Arrow>
+    </Select.Wrapper>
+    {error && <Input.Error>{error}</Input.Error>}
+  </Input.Group>
 );
 
 const Select = styled.select`
