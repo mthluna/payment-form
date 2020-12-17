@@ -68,7 +68,7 @@ describe('Formulário de pagamento', () => {
     render(<Payment />);
 
     const input = screen.getByRole('textbox', { name: 'Validade' });
-    userEvent.type(input, '06/26');
+    userEvent.type(input, '15/26');
 
     const form = screen.getByTestId('payment-form');
     fireEvent.submit(form);
